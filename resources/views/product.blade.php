@@ -1,11 +1,20 @@
 @extends('layouts.main')
-@section('title','Məhsulllar')
+@section('title',$product->product_name)
+@section('head')
+    <style>
+        img{
+            width: 350px;
+        }
+    </style>
+@endsection
 @section('content')
     <div class="container">
         <ol class="breadcrumb">
-            <li><a href="#">Anasayfa</a></li>
-            <li><a href="#">Kategori</a></li>
-            <li class="active">Kategori</li>
+            <li><a href="{{route('home_page')}}">Anasayfa</a></li>
+            @foreach($product->category as $category)
+            <li><a href="{{route('category_page',$category->slug)}}">{{$category->category_name}}</a></li>
+            @endforeach
+            <li class="active">{{$product->product_name}}</li>
         </ol>
         <div class="bg-content">
             <div class="row">
@@ -25,9 +34,13 @@
                     </div>
                 </div>
                 <div class="col-md-7">
-                    <h1>{{$product}}</h1>
-                    <p class="price">129 man</p>
-                    <p><a href="#" class="btn btn-theme">Sepete Ekle</a></p>
+                    <h1>{{$product->product_name}}</h1>
+                    <p class="price">{{$product->price}} man</p>
+                    <form action="{{ route('cart.add') }}" method="post">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="id" value="{{ $product->id }}">
+                        <input type="submit" class="btn btn-theme" value="Səbətə əlavə et">
+                    </form>
                 </div>
             </div>
 
@@ -37,7 +50,7 @@
                     <li role="presentation"><a href="#t2" data-toggle="tab">Yorumlar</a></li>
                 </ul>
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="t1">t1</div>
+                    <div role="tabpanel" class="tab-pane active" id="t1">{{$product->description}}</div>
                     <div role="tabpanel" class="tab-pane" id="t2">t2</div>
                 </div>
             </div>

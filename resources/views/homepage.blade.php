@@ -2,49 +2,44 @@
 @section('title','Ana Səhifə')
 
 @section('content')
+
+    @if(session()->has('message'))
+        <div class="alert alert-{{ session('message_status') }}">
+            {{ session('message') }}
+        </div>
+    @endif
+
+    <style>
+        img{}
+    </style>
     <div class="container">
         <div class="row">
             <div class="col-md-3">
                 <div class="panel panel-default">
                     <div class="panel-heading">Kategoriler</div>
                     <div class="list-group categories">
-                        <a href="#" class="list-group-item"><i class="fa fa-television"></i> Kategori</a>
-                        <a href="#" class="list-group-item"><i class="fa fa-television"></i> Kategori</a>
-                        <a href="#" class="list-group-item"><i class="fa fa-television"></i> Kategori</a>
-                        <a href="#" class="list-group-item"><i class="fa fa-television"></i> Kategori</a>
-                        <a href="#" class="list-group-item"><i class="fa fa-television"></i> Kategori</a>
-                        <a href="#" class="list-group-item"><i class="fa fa-television"></i> Kategori</a>
-                        <a href="#" class="list-group-item"><i class="fa fa-television"></i> Kategori</a>
-                        <a href="#" class="list-group-item"><i class="fa fa-television"></i> Kategori</a>
+                        @foreach($categories as $category)
+                        <a href="{{route('category_page',['category_name'=>$category->slug])}}" class="list-group-item"><i class="fa fa-television"></i> {{$category->category_name}}</a>
+                            @endforeach
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
-                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-                        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                        @for($i=0;$i<count($product_details_sliders);$i++)
+                        <li data-target="#carousel-example-generic" data-slide-to="{{$i}}" class="{{$i==0 ? 'active' : ''}}"></li>
+                        @endfor
                     </ol>
                     <div class="carousel-inner" role="listbox">
-                        <div class="item active">
+                        @foreach($product_details_sliders as $index => $product)
+                        <div class="item {{$index==0 ? 'active' : ''}}">
                             <img src="{{asset('img/food1.jpg')}}" alt="...">
                             <div class="carousel-caption">
-                                Slide 1
+                                {{$product->product_name}}
                             </div>
                         </div>
-                        <div class="item">
-                            <img src="{{asset('img/food2.jpeg')}}" alt="...">
-                            <div class="carousel-caption">
-                                Slide 2
-                            </div>
-                        </div>
-                        <div class="item">
-                            <img src="{{asset('img/food3.jpg')}}" alt="...">
-                            <div class="carousel-caption">
-                                Slide 3
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                     <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
                         <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
@@ -60,8 +55,9 @@
                 <div class="panel panel-default" id="sidebar-product">
                     <div class="panel-heading">Günün Fırsatı</div>
                     <div class="panel-body">
-                        <a href="#">
+                        <a href="{{route('product_page',$product_day_chance->slug)}}">
                             <img src="{{asset('img/food1.jpg')}}" class="img-responsive">
+                            {{$product_day_chance->product_name}}
                         </a>
                     </div>
                 </div>
@@ -74,26 +70,13 @@
                 <div class="panel-heading">Öne Çıkan Ürünler</div>
                 <div class="panel-body">
                     <div class="row">
+                        @foreach($product_more_showned as $product)
                         <div class="col-md-3 product">
-                            <a href="#"><img src="{{asset('img/food1.jpg')}}"></a>
-                            <p><a href="#">Ürün adı</a></p>
-                            <p class="price">129 man</p>
+                            <a href="{{route('product_page',$product->slug)}}"><img src="{{asset('img/food1.jpg')}}"></a>
+                            <p><a href="{{route('product_page',$product->slug)}}">{{$product->product_name}}</a></p>
+                            <p class="price">{{$product->price}} man</p>
                         </div>
-                        <div class="col-md-3 product">
-                            <a href="#"><img src="{{asset('img/food2.jpeg')}}"></a>
-                            <p><a href="#">Ürün adı</a></p>
-                            <p class="price">129 man</p>
-                        </div>
-                        <div class="col-md-3 product">
-                            <a href="#"><img src="{{asset('img/food3.jpg')}}"></a>
-                            <p><a href="#">Ürün adı</a></p>
-                            <p class="price">129 man</p>
-                        </div>
-                        <div class="col-md-3 product">
-                            <a href="#"><img src="{{asset('img/food4.jpg')}}"></a>
-                            <p><a href="#">Ürün adı</a></p>
-                            <p class="price">129 man</p>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -104,26 +87,14 @@
                 <div class="panel-heading">Çok Satan Ürünler</div>
                 <div class="panel-body">
                     <div class="row">
+
+                        @foreach($product_bestselled as $product)
                         <div class="col-md-3 product">
-                            <a href="#"><img src="{{asset('img/food1.jpg')}}"></a>
-                            <p><a href="#">Ürün adı</a></p>
-                            <p class="price">129 man</p>
+                            <a href="{{route('product_page',$product->slug)}}"><img src="{{asset('img/food1.jpg')}}"></a>
+                            <p><a href="{{route('product_page',$product->slug)}}">{{$product->product_name}}</a></p>
+                            <p class="price">{{$product->price}} man</p>
                         </div>
-                        <div class="col-md-3 product">
-                            <a href="#"><img src="{{asset('img/food2.jpeg')}}"></a>
-                            <p><a href="#">Ürün adı</a></p>
-                            <p class="price">129 man</p>
-                        </div>
-                        <div class="col-md-3 product">
-                            <a href="#"><img src="{{asset('img/food3.jpg')}}"></a>
-                            <p><a href="#">Ürün adı</a></p>
-                            <p class="price">129 man</p>
-                        </div>
-                        <div class="col-md-3 product">
-                            <a href="#"><img src="{{asset('img/food4.jpg')}}"></a>
-                            <p><a href="#">Ürün adı</a></p>
-                            <p class="price">129 man</p>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -133,26 +104,13 @@
                 <div class="panel-heading">İndirimli Ürünler</div>
                 <div class="panel-body">
                     <div class="row">
+                        @foreach($product_discounted as $product)
                         <div class="col-md-3 product">
-                            <a href="#"><img src="{{asset('img/food1.jpg')}}"></a>
-                            <p><a href="#">Ürün adı</a></p>
-                            <p class="price">129 man</p>
+                            <a href="{{route('product_page',$product->slug)}}"><img src="{{asset('img/food1.jpg')}}"></a>
+                            <p><a href="{{route('product_page',$product->slug)}}">{{$product->product_name}}</a></p>
+                            <p class="price">{{$product->price}} man</p>
                         </div>
-                        <div class="col-md-3 product">
-                            <a href="#"><img src="{{asset('img/food2.jpeg')}}"></a>
-                            <p><a href="#">Ürün adı</a></p>
-                            <p class="price">129 man</p>
-                        </div>
-                        <div class="col-md-3 product">
-                            <a href="#"><img src="{{asset('img/food3.jpg')}}"></a>
-                            <p><a href="#">Ürün adı</a></p>
-                            <p class="price">129 man</p>
-                        </div>
-                        <div class="col-md-3 product">
-                            <a href="#"><img src="{{asset('img/food4.jpg')}}"></a>
-                            <p><a href="#">Ürün adı</a></p>
-                            <p class="price">129 man</p>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -160,3 +118,9 @@
     </div>
 
 @endsection
+
+@section('footer')
+    setTimeout(function(){
+        $('.alert').slideUp(500)
+    },3000);
+    @endsection
