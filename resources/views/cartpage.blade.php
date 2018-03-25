@@ -74,7 +74,7 @@
                         {{ method_field('DELETE') }}
                         <input type="submit" class="btn btn-info pull-left" value="Səbəti boşalt">
                     </form>
-                    <a href="#" class="btn btn-success pull-right btn-lg">Ödeme Yap</a>
+                    <a href="{{ route('payment_page') }}" class="btn btn-success pull-right btn-lg">Ödəniş et</a>
                 </div>
             @else
                 <p>Hazırda səbətdə məhsul yoxdur</p>

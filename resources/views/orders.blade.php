@@ -5,30 +5,37 @@
 
     <div class="container">
         <div class="bg-content">
-            <h2>Siparişler</h2>
-            <p>Henüz siparişiniz yok</p>
+
+            @if(!count($orders)>0)
+
+            <p>Hal hazırda sifarişiniz yoxdur</p>
+
+            @else
+            <h2>Sifarişlər</h2>
             <table class="table table-bordererd table-hover">
                 <tr>
-                    <th>Sipariş Kodu</th>
-                    <th>Sipariş Tarihi</th>
-                    <th>KDV</th>
+                    <th>Sifariş Kodu</th>
+                    <th>Sifariş Tarixi</th>
                     <th>Kargo</th>
-                    <th>Toplam Tutar</th>
-                    <th>Durum</th>
-                    <th>İşlem</th>
+                    <th>Umumi ödənəcək məbləğ</th>
+                    <th>Status</th>
+                    <th>Əməliyyat</th>
                 </tr>
+                @foreach($orders as $order)
                 <tr>
-                    <td>SP-00123</td>
-                    <td>25.09.2017</td>
-                    <td>2.99</td>
-                    <td>0</td>
-                    <td>18.99</td>
+                    <td>{{ $order->id}}</td>
+                    <td>{{ date('d-m-Y',strtotime($order->created_at)) }}</td>
+                    <td> - </td>
+                    <td>{{ $order->order_price }} Azn</td>
                     <td>
-                        Sipariş alındı, <br> Onaylandı, <br> Kargoya verildi, <br> Bir sorun var. İletişime geçin!
+                        {{ $order->status }}
                     </td>
-                    <td><a href="#" class="btn btn-sm btn-success">Detay</a></td>
+                    <td><a href="{{ route('order_page',$order->id) }}" class="btn btn-sm btn-success">Ətraflı</a></td>
                 </tr>
+                @endforeach
+
             </table>
+            @endif
         </div>
     </div>
 @endsection

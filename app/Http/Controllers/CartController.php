@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\CartProduct;
 use App\Product;
-use Cart;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -48,6 +48,14 @@ class CartController extends Controller
     }
 
     public function delete($rowid){
+
+        if (auth()->check()){
+            $active_cart_id = session('active_cart_id');
+
+            $cartItem = Cart::get($rowid);
+
+            CartProduct::where('cart_id',$active_cart_id)->where('product_id',$cartItem->id)->delete();
+        }
         Cart::remove($rowid);
 
         return redirect()->route('cart_page')
@@ -56,6 +64,12 @@ class CartController extends Controller
     }
 
     public function deleteAll(){
+
+        if (auth()->check()){
+            $active_cart_id = session('active_cart_id');
+
+            CartProduct::where('cart_id',$active_cart_id)->delete();
+        }
         Cart::destroy();
         return redirect()->route('cart_page')
             ->with('message','Səbətiniz boşaldıldı.')
@@ -73,6 +87,22 @@ class CartController extends Controller
             session()->flash('message','Məhsul sayı min 1 max 5 ola bilər.');
 
             return response()->json(['success' => true]);
+        }
+
+        if (auth()->check()){
+            $active_cart_id = session('active_cart_id');
+            $cartItem = Cart::get($rowid);
+
+            if (request('qty') == 0){
+                CartProduct::where('cart_id',$active_cart_id)
+                    ->where('product_id',$cartItem->id)->delete();
+            }
+            else{
+                CartProduct::where('cart_id',$active_cart_id)
+                    ->where('product_id',$cartItem->id)
+                    ->update(['amount' => request('qty')]);
+            }
+
         }
         Cart::update($rowid,request('qty'));
 

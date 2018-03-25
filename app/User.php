@@ -14,4 +14,10 @@ class User extends Authenticatable
     protected $fillable = ['fullname','email','password','activation_code','status'];
     protected $hidden = ['password','activation_code'];
 
+
+
+    public function userDetail(){
+
+       return $this->hasOne('App\UserDetail');
+    }
 }

@@ -36,11 +36,12 @@ Route::group(['prefix' => 'cart'],function(){
     Route::patch('/update/{rowid}','CartController@update')->name('cart.update');
 });
 
+//payments routes
+Route::get('/payment','PaymentController@index')->name('payment_page');
+Route::post('/payment/make','PaymentController@make')->name('payment.make');
 
 
 Route::group(['middleware' =>'auth'],function(){
-    //payments routes
-    Route::get('/payment','PaymentController@index')->name('payment_page');
 
     //orders routes
     Route::group(['prefix'=>'orders'],function(){
@@ -59,6 +60,14 @@ Route::group(['prefix'=>'user'],function(){
     Route::post('/register','UserController@register');
     Route::get('/activation/{activation_code}','UserController@activation')->name('activation');
     Route::post('/user/logout','UserController@logout')->name('user.logout');
+});
+
+Route::group(['prefix' => 'admin'],function(){
+        Route::match(['get','post'],'/login','AdminController@login')->name('admin.login');
+    Route::group(['middleware' => 'admin'],function (){
+        Route::get('/home','AdminController@index')->name('admin.home');
+        Route::get('/logout','AdminController@logout')->name('admin.logout');
+    });
 });
 
 

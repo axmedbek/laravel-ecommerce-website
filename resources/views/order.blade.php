@@ -15,18 +15,18 @@
 @section('content')
     <div class="container">
         <div class="bg-content">
-            <h2>Sipariş (SP-00123)</h2>
+            <h2>Sifariş (SP-{{ $order->id }})</h2>
             <table class="table table-bordererd table-hover">
                 <tr>
-                    <th>Ürün</th>
-                    <th>Tutar</th>
-                    <th>Adet</th>
-                    <th>Ara Toplam</th>
-                    <th>Durum</th>
+                    <th>Məhsul</th>
+                    <th>Məbləğ</th>
+                    <th>Miqdar</th>
+                    <th>Ümumi məbləğ</th>
+                    <th>Vəziyyəti</th>
                 </tr>
                 <tr>
-                    <td> <img src="{{asset('img/food2.jpeg')}}"> Ürün adı {{$order}}</td>
-                    <td>18.99</td>
+                    <td> <img src="{{asset('img/food2.jpeg')}}"> {{$order}}</td>
+                    <td>{{  }}</td>
                     <td>1</td>
                     <td>18.99</td>
                     <td>

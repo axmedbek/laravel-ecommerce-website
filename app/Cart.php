@@ -13,4 +13,12 @@ class Cart extends Model
 
 
     protected $guarded = [];
+
+    public function order(){
+        $this->hasOne('App\Order');
+    }
+
+    public static function active_cart_id(){
+
+    }
 }

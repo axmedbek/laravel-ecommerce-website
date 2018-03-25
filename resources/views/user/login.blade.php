@@ -6,6 +6,11 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
+                @if(session()->has('message'))
+                    <div class="alert alert-{{ session('message_status') }}">
+                        {{ session('message') }}
+                    </div>
+                @endif
                 <div class="panel panel-default">
                     <div class="panel-heading">Login ol</div>
                     <div class="panel-body">

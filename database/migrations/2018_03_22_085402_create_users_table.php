@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('password',60);
             $table->string('activation_code',60)->nullable();
             $table->boolean('status')->default(0);
+            $table->boolean('is_admin')->default(0);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
