@@ -65,8 +65,14 @@ Route::group(['prefix'=>'user'],function(){
 Route::group(['prefix' => 'admin'],function(){
         Route::match(['get','post'],'/login','AdminController@login')->name('admin.login');
     Route::group(['middleware' => 'admin'],function (){
+        Route::match(['get','post'],'/','AdminController@index')->name('admin.user');
         Route::get('/home','AdminController@index')->name('admin.home');
         Route::get('/logout','AdminController@logout')->name('admin.logout');
+        Route::get('/create','AdminController@create')->name('admin.user.create');
+        Route::get('/edit/{id}','AdminController@edit')->name('admin.user.edit');
+        Route::post('/save/{id?}','AdminController@save')->name('admin.user.save');
+        Route::get('/delete/{id}','AdminController@delete')->name('admin.user.delete');
+
     });
 });
 
