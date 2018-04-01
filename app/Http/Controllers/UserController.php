@@ -92,7 +92,7 @@ class UserController extends Controller
 
         $user->userDetail()->save(new UserDetail());
 
-        Mail::to(request('email'))->send(new UserMail($user));
+        //Mail::to(request('email'))->send(new UserMail($user));
 
 
         auth()->login($user);

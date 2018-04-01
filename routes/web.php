@@ -63,17 +63,48 @@ Route::group(['prefix'=>'user'],function(){
 });
 
 Route::group(['prefix' => 'admin'],function(){
-        Route::match(['get','post'],'/login','AdminController@login')->name('admin.login');
+
+
+    //admin login route
+    Route::match(['get','post'],'/login','AdminController@login')->name('admin.login');
+
+
     Route::group(['middleware' => 'admin'],function (){
-        Route::match(['get','post'],'/','AdminController@index')->name('admin.user');
-        Route::get('/home','AdminController@index')->name('admin.home');
+
+        //home routes
+
+        Route::get('/','AdminController@home')->name('admin.home');
+        Route::match(['get','post'],'/user','AdminController@index')->name('admin.user');
         Route::get('/logout','AdminController@logout')->name('admin.logout');
-        Route::get('/create','AdminController@create')->name('admin.user.create');
+        Route::get('/create','AdminController@edit')->name('admin.user.create');
         Route::get('/edit/{id}','AdminController@edit')->name('admin.user.edit');
         Route::post('/save/{id?}','AdminController@save')->name('admin.user.save');
         Route::get('/delete/{id}','AdminController@delete')->name('admin.user.delete');
 
+
+        //category routes
+
+        Route::group(['prefix' => 'category'],function(){
+            Route::match(['get','post'],'/','AdminCategoryController@index')->name('admin.category');
+            Route::get('/create','AdminCategoryController@edit')->name('admin.category.create');
+            Route::get('/edit/{id}','AdminCategoryController@edit')->name('admin.category.edit');
+            Route::post('/save/{id?}','AdminCategoryController@save')->name('admin.category.save');
+            Route::get('/delete/{id}','AdminCategoryController@delete')->name('admin.category.delete');
+        });
+
+        //product routes
+
+        Route::group(['prefix' => 'product'],function(){
+            Route::match(['get','post'],'/','AdminProductController@index')->name('admin.product');
+            Route::get('/create','AdminProductController@edit')->name('admin.product.create');
+            Route::get('/edit/{id}','AdminProductController@edit')->name('admin.product.edit');
+            Route::post('/save/{id?}','AdminProductController@save')->name('admin.product.save');
+            Route::get('/delete/{id}','AdminProductController@delete')->name('admin.product.delete');
+        });
+
+
     });
+
 });
 
 
